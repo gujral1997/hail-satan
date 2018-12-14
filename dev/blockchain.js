@@ -1,3 +1,5 @@
+const sha256 = require('sha256')
+
 function Blocakchain() {
     this.chain = []
     this.pendingTransactions = []
@@ -41,8 +43,23 @@ Blocakchain.prototype.getLastBlock = function() {
     return this.chain[this.chain.length - 1]
 }
 
-Blocakchain.prototype.hashBlock = function(blockData) {
-    
+// to generate hash
+
+Blocakchain.prototype.hashBlock = function(previousBlockHash, currentBlockData, nonce) {
+    const dataAsString = previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData)
+    const hash = sha256(dataAsString)
+    return hash
+}
+
+Blocakchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData) {
+    let nonce = 0
+    let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
+    while (hash.substring(0, 4)!== '0000') {
+        nonce++
+        hash = hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
+    }
+
+    return nonce
 }
 
 module.exports = Blocakchain
