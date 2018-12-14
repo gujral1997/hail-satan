@@ -3,6 +3,7 @@ const sha256 = require('sha256')
 function Blocakchain() {
     this.chain = []
     this.pendingTransactions = []
+    this.createNewBlock(0,'0', '0')
 }
 
 // To mine a new block
@@ -56,7 +57,7 @@ Blocakchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData
     let hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
     while (hash.substring(0, 4)!== '0000') {
         nonce++
-        hash = hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
+        hash = this.hashBlock(previousBlockHash, currentBlockData, nonce)
     }
 
     return nonce
