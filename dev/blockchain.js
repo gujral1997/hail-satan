@@ -41,4 +41,8 @@ Blocakchain.prototype.getLastBlock = function() {
     return this.chain[this.chain.length - 1]
 }
 
+Blocakchain.prototype.hashBlock = function(blockData) {
+    
+}
+
 module.exports = Blocakchain
