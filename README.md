@@ -1,4 +1,4 @@
-# Fully functional blockchain implemented in f**king javascript
+# Blockchain based crypto-currency implemented in f**king javascript
 
 ## Steps to Install
 
