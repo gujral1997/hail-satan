@@ -42,7 +42,7 @@ app.get('/mine', (req, res)=> {
 })
 
 // registers a node and brodcasts it to the whole network
-app.post('/register-and-brodcast-node', (req, res)=> { 
+app.post('/register-and-broadcast-node', (req, res)=> { 
     const newNodeUrl = req.body.newNodeUrl
     if (bitcoin.networkNodes.indexOf(newNodeUrl) == -1)
         bitcoin.networkNodes.push(newNodeUrl)
@@ -54,7 +54,7 @@ app.post('/register-and-brodcast-node', (req, res)=> {
         // register node
         const requestOptions = {
             uri: networkNodeUrl + '/register-node',
-            method: post,
+            method: 'POST',
             body: { newNodeUrl },
             json: true
         }
@@ -66,7 +66,7 @@ app.post('/register-and-brodcast-node', (req, res)=> {
     .then(data=> {
         // use the data
         const bulkregisterOptions = {
-            uri: net + '/register-node-bulk',
+            uri: newNodeUrl + '/register-nodes-bulk',
             method: 'POST',
             body: { allNetworkNodes: [ ...bitcoin.networkNodes, bitcoin.currentNodeUrl ] },
             json: true
