@@ -65,6 +65,17 @@ app.post('/register-and-brodcast-node', (req, res)=> {
     Promise.all(regNodesPromises)
     .then(data=> {
         // use the data
+        const bulkregisterOptions = {
+            uri: net + '/register-node-bulk',
+            method: 'POST',
+            body: { allNetworkNodes: [ ...bitcoin.networkNodes, bitcoin.currentNodeUrl ] },
+            json: true
+        }
+
+        return rp(bulkregisterOptions)
+    })
+    .then(data=> {
+        res.json({ msg: 'New node registered with network successfully' })
     })
 })
 
