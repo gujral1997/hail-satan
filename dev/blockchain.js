@@ -1,8 +1,11 @@
 const sha256 = require('sha256')
+const currentNodeUrl = process.argv[3]
 
 function Blocakchain() {
     this.chain = []
     this.pendingTransactions = []
+    this.networkNodes = []
+    this.currentNodeUrl = currentNodeUrl
     this.createNewBlock(0,'0', '0')
 }
 
