@@ -22,6 +22,26 @@ app.post('/transaction', (req, res)=> {
     res.json({ note: `Transaction will be added in block ${blockIndex}` })
 })
 
+app.post('/transaction/brodcast', (req, res) => {
+    const newTransaction = bitcoin.createNewTransaction(req.body.amount, req.body.sender, req.body.recipient)
+    bitcoin.addTransactionToPendingTransactions(newTransaction)
+
+    const requestPromises = []
+    bitcoin.networkNodes.forEach(networkNodeUrl => {
+        const requestOptions = {
+            uri: networkNodeUrl + '/transaction',
+            method: 'POST',
+            body: newTransaction,
+            json: true
+        }
+        requestPromises.push(rp(requestOptions))
+        Promise.all(requestPromises)
+        .then(data=> {
+            res.json({note: 'Transaction created and brodcast successfully'})
+        })
+    })
+})
+
 app.get('/mine', (req, res)=> {
     const lastBlock = bitcoin.getLastBlock()
     const previousBlockHash = lastBlock['hash']
