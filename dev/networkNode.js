@@ -36,10 +36,10 @@ app.post('/transaction/brodcast', (req, res) => {
             json: true
         }
         requestPromises.push(rp(requestOptions))
-        Promise.all(requestPromises)
-        .then(data=> {
-            res.json({note: 'Transaction created and brodcast successfully'})
-        })
+    })
+    Promise.all(requestPromises)
+    .then(data=> {
+        res.json({note: 'Transaction created and brodcast successfully'})
     })
 })
 
@@ -79,10 +79,11 @@ app.get('/mine', (req, res)=> {
         }
         return rp(requestOptions)
     })
-
-    res.json({
-        msg: "New Block mined successfully",
-        newBlock
+    .then(data => {
+        res.json({
+            msg: "New Block mined & brodcast successfully",
+            newBlock
+        })
     })
 })
 
