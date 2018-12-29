@@ -41,7 +41,7 @@ Blocakchain.prototype.createNewTransaction = function(amount, sender, recipient)
     return newTransaction
 }
 
-Blocakchain.prototype.addTransactionToPendingTransactions = function(transactionObj) {
+Blocakchain.prototype.addTransactionToPendingTransactions= function(transactionObj) {
     this.pendingTransactions.push(transactionObj)
     return this.getLastBlock()['index'] + 1
 }
@@ -54,7 +54,7 @@ Blocakchain.prototype.getLastBlock = function() {
 
 // to generate hash
 
-Blocakchain.prototype.hashBlock = function(previousBlockHash, currentBlockData, nonce) {
+Blocakchain.prototype.hashBlock = function (previousBlockHash, currentBlockData, nonce) {
     const dataAsString = previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData)
     const hash = sha256(dataAsString)
     return hash
@@ -71,14 +71,14 @@ Blocakchain.prototype.proofOfWork = function(previousBlockHash, currentBlockData
     return nonce
 }
 
-Blocakchain.prototype.chainIsValid = (blockchain)=> {
+Blocakchain.prototype.chainIsValid = function (blockchain) {
     let validChain = true
 
     for( var i = 1; i < blockchain.length; i++) {
         const currentBlock = blockchain[i]
         const prevBlock = blockchain[i - 1]
-        const blockchain = this.hashBlock(prevBlock['hash'], {transactions: currentBlock['transactions'], index: currentBlock['index']})
-        if (blockchain.substring(0, 4) !== '0000') validChain = false 
+        const blockHash = this.hashBlock(prevBlock['hash'], {transactions: currentBlock['transactions'], index: currentBlock['index']},  currentBlock['nonce'])
+        if (blockHash.substring(0, 4) !== '0000') validChain = false 
         if(currentBlock['previousBlockHash'] !== prevBlock['hash']) validChain = false
     }
 
